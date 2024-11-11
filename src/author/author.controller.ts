@@ -2,13 +2,14 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AuthorService } from './author.service';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
+import { Prisma } from '@prisma/client';
 
 @Controller('author')
 export class AuthorController { 
-  constructor(private readonly authorService: AuthorService) {}
+  constructor(private readonly authorService:AuthorService ) {}
 
   @Post()
-  create(@Body() createAuthorDto: CreateAuthorDto) {
+  create(@Body() createAuthorDto: Prisma.AuthorCreateInput) {
     return this.authorService.create(createAuthorDto);
   }
 
@@ -24,7 +25,7 @@ export class AuthorController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthorDto: UpdateAuthorDto) {
+  update(@Param('id') id: string, @Body() updateAuthorDto: Prisma.AuthorUpdateInput) {
     return this.authorService.update(+id, updateAuthorDto);
   }
 
