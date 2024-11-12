@@ -1,29 +1,47 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client'; 
-import { DbService as db} from 'src/db/db.service';  
+import { Prisma } from '@prisma/client';
+import { DbService as db } from 'src/db/db.service';
 
 @Injectable()
 export class AuthorService {
-constructor(private readonly db: db ){}
+  constructor(private readonly db: db) { }
 
-  create(createAuthorDto: Prisma.AuthorCreateInput) {
-    this.db.author.create({data:createAuthorDto})
-    return 'This action adds a new author';
+  async create(createAuthorDto: Prisma.AuthorCreateInput) {
+    return await this.db.author.create({ data: createAuthorDto });
+
   }
 
-  findAll() {
-    return `This action returns all author`;
+  async findAll() {
+    return await this.db.author.findMany({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} author`;
+  async findOne(id: string) {
+    return await this.db.author.findUnique({
+      where: {
+        id
+      },
+      include: {
+        books: true
+      }
+    }
+    );;
   }
 
-  update(id: number, updateAuthorDto: Prisma.AuthorUpdateInput){
-    return `This action updates a #${id} author`;
-  }
+  update(id: string, updateAuthorDto: Prisma.AuthorUpdateInput) {
+    return this.db.author.update({
+      where: {
+        id
+      },
+      data: updateAuthorDto
 
-  remove(id: number) {
-    return `This action removes a #${id} author`;
+    }
+  )}
+
+  async remove(id: string) {
+    return await this.db.author.delete({
+      where: {
+        id
+      }
+    });
   }
 }

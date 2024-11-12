@@ -21,12 +21,12 @@ export class AuthorController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.authorService.findOne(+id);
+    return this.authorService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAuthorDto: Prisma.AuthorUpdateInput) {
-    return this.authorService.update(+id, updateAuthorDto);
+    return this.authorService.update(id, updateAuthorDto);
   }
 
   @Delete(':id')
