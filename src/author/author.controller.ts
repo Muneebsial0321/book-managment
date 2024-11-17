@@ -1,7 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { AuthorService } from './author.service';
-import { CreateAuthorDto } from './dto/create-author.dto';
-import { UpdateAuthorDto } from './dto/update-author.dto';
 import { Prisma } from '@prisma/client';
 
 @Controller('author')
@@ -10,6 +8,7 @@ export class AuthorController {
 
   @Post()
   create(@Body() createAuthorDto: Prisma.AuthorCreateInput) {
+    console.log({createAuthorDto})
     return this.authorService.create(createAuthorDto);
   }
 
@@ -31,6 +30,6 @@ export class AuthorController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.authorService.remove(+id);
+    return this.authorService.remove(id);  
   }
 }

@@ -1,14 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { BookService } from './book.service';
-import { CreateBookDto } from './dto/create-book.dto';
-import { UpdateBookDto } from './dto/update-book.dto';
+import { Prisma } from '@prisma/client';
+
 
 @Controller('book')
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
   @Post()
-  create(@Body() createBookDto: CreateBookDto) {
+  create(@Body() createBookDto: Prisma.BookCreateInput) {
     return this.bookService.create(createBookDto);
   }
 
@@ -19,16 +19,16 @@ export class BookController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.bookService.findOne(+id);
+    return this.bookService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
-    return this.bookService.update(+id, updateBookDto);
+  update(@Param('id') id: string, @Body() updateBookDto: Prisma.BookCreateInput) {
+    return this.bookService.update(id, updateBookDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.bookService.remove(+id);
+    return this.bookService.remove(id);
   }
 }
