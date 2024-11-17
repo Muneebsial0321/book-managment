@@ -9,7 +9,9 @@ export class BookController {
 
   @Post()
   create(@Body() createBookDto: Prisma.BookCreateInput) {
+    console.log({createBookDto})
     return this.bookService.create(createBookDto);
+
   }
 
   @Get()

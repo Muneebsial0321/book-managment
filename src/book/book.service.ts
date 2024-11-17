@@ -7,7 +7,12 @@ import { DbService } from 'src/db/db.service';
 export class BookService {
   constructor(private readonly db:DbService){}
   create(createBookDto: Prisma.BookCreateInput) {
-    return this.db.book.create({data:createBookDto});
+    try {
+      return this.db.book.create({data:createBookDto});
+      
+    } catch (error) {
+      console.log({error})
+    }
   }
 
   findAll() {
