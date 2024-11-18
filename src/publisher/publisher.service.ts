@@ -1,26 +1,28 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePublisherDto } from './dto/create-publisher.dto';
-import { UpdatePublisherDto } from './dto/update-publisher.dto';
+import { DbService } from 'src/db/db.service'; 
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class PublisherService {
-  create(createPublisherDto: CreatePublisherDto) {
-    return 'This action adds a new publisher';
+constructor(private readonly db:DbService){}
+
+  create(createPublisherDto: Prisma.PublisherCreateInput) {
+    return this.db.publisher.create({data:createPublisherDto});
   }
 
   findAll() {
-    return `This action returns all publisher`;
+    return this.db.publisher.findMany({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} publisher`;
+  findOne(id: string) {
+    return this.db.publisher.findUnique({where:{id}});
   }
 
-  update(id: number, updatePublisherDto: UpdatePublisherDto) {
-    return `This action updates a #${id} publisher`;
+  update(id: string, updatePublisherDto:  Prisma.PublisherUpdateInput) {
+    return this;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} publisher`;
   }
 }
