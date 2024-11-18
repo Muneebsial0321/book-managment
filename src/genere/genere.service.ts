@@ -1,26 +1,28 @@
 import { Injectable } from '@nestjs/common';
-import { CreateGenereDto } from './dto/create-genere.dto';
-import { UpdateGenereDto } from './dto/update-genere.dto';
-
+import { Prisma } from '@prisma/client';
+import { DbService } from 'src/db/db.service';
 @Injectable()
 export class GenereService {
-  create(createGenereDto: CreateGenereDto) {
-    return 'This action adds a new genere';
+
+  constructor(private readonly  db:DbService){}
+
+  create(createGenereDto: Prisma.GenereCreateInput) {
+    return this.db.genere.create({data:createGenereDto});
   }
 
   findAll() {
-    return `This action returns all genere`;
+    return this.db.genere.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} genere`;
+  findOne(id: string) {
+    return this.db.genere.findUnique({where:{id}});
   }
 
-  update(id: number, updateGenereDto: UpdateGenereDto) {
-    return `This action updates a #${id} genere`;
+  update(id: string, updateGenereDto: Prisma.GenereUpdateInput) {
+    return this.db.genere.update({where:{id},data:updateGenereDto})
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} genere`;
+  remove(id: string) {
+    return this.db.genere.delete({where:{id}})
   }
 }
