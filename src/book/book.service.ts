@@ -16,18 +16,18 @@ export class BookService {
   }
 
   findAll() {
-    return `This action returns all book`;
+    return this.db.book.findMany({});
   }
 
   findOne(id: string) {
-    return `This action returns a #${id} book`;
+    return this.db.book.findUnique({where:{id}});
   }
 
   update(id: string, updateBookDto: Prisma.BookUpdateInput) {
-    return `This action updates a #${id} book`;
+    return this.db.book.update({data:updateBookDto,where:{id}});
   }
 
   remove(id:string ) {
-    return `This action removes a #${id} book`;
+    return this.db.book.delete({where:{id}});
   }
 }
